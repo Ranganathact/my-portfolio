@@ -126,7 +126,7 @@ router.get('/signup', function (req, res) {
 });
 router.get('/dosignup', function (req, res) {
     let data = req.body;
-    console.log(data);
+    // console.log(data);
     res.redirect('/login')
 
 });

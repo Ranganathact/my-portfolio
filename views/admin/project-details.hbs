@@ -1,54 +1,65 @@
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">project details</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group mr-2">
-        <button class="btn btn-sm btn-outline-secondary">add</button>
-        <button class="btn btn-sm btn-outline-secondary">Edit</button>
-      </div>
-      <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-        <span data-feather="calendar"></span>
-        This week
-      </button>
-    </div>
-  </div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
+        <h1 class="h2">Projects Detail</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group mr-2">
+
+                
+                <a href="/admin/projects/create" class="btn btn-sm btn-outline-secondary">Create New</a>
 
 
-  <div class="row">
-    <div class="col-md-5">
-      <form>
-        <label>Name</label><br>
-        <input type='text' name='name' value=''>
-        <br>
-        <label>age</label><br>
-        <input type="number" name="age" id="">
-        <br>
-        <label>gender</label><br>
-        <input type="radio" name="gender" value="male">male<br>
-        <input type="radio" name="gender" value="female">female<br>
-        <input type="radio" name="gender" value="other">other<br>
-        <br>
-        <label>birthday</label><br>
-        <input type="date" name="birthday">
-        <br>
-
-        <label>description</label><br>
-        <textarea name="text" id="" cols="10" rows="5"></textarea>
-        <br>
-      
+                <a href= "/admin/projects/{{project.alias}}/delete" class="btn btn-sm btn-outline-secondary">Delete</a>
+            </div>
+        </div>
     </div>
 
-    <div class="col-md-5">
+    <form action="" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" class="form-control" value="{{project.name}}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="alias">Alias</label>
+                    <input type="text" disabled name="alias" id="alias" class="form-control" value="{{project.alias}}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">GithubUrl</label>
+                    <input type="text" class="form-control" value="{{project.githubUrl}}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Tag</label>
+                    <input type="text" class="form-control" value="{{#each project.tags}}{{this.name}},{{/each}}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea type="text" rows="5" name="description" id="description" class="form-control" value="{{project.description}}">{{project.description}}</textarea>
+                </div>
+            </div>
 
-     <label> phone</label><br>
-      <input type="number" id="" name="number">
-      <br>
-     <label>Email</label><br>
-      <input type="email" id ="" name="email">
-      <br>
-      <label>image</label><br>
-      <img src="/image/img.jpg" alt="" srcset="" width="50%" height="50%">
-    </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Image</label>
+                    {{#if project.image}}
+                        <img src="{{project.image}}" alt="">s
+                    {{else}}
+
+                    <input type="file" class="form-control" value=""></input>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
 
     </form>
-  </div>
+</main>

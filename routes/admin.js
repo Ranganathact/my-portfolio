@@ -1,6 +1,26 @@
+const express = require('express');
 let data = require('../my-data.json');
-let express = require('express');
 let router = express.Router();
+// const Project = require('../models/projectSchema')
+
+let Client = require('mongodb').MongoClient;
+
+let dbUrl = 'mongodb://localhost:27017';
+
+let db;
+
+
+Client.connect(dbUrl, {useNewUrlParser:true}, function (error, client) {
+    if(error) {
+        console.log(error)
+    }else {
+        console.log('Successfully Connected to DB');
+        db = client.db('mean')
+    }
+})
+
+
+//const Project = require('../models/projectSchema')
 
 
 router.get('/dashboard', function (req, res) {
@@ -14,30 +34,123 @@ router.get('/dashboard', function (req, res) {
 
 
 
-router.get('/projectlist',function (req,res) {
-    res.render('admin/projectlist', {
-        title:'project-list',
-        layout:'layout-admin',
-        projects : data.myProjects
+router.get('/projectlist',function (req,res,next) {
+
+    let projectsCollection = db.collection('projects');
+
+    projectsCollection.find().toArray(function(err, projectlist){
+
+        if(err){
+            next(err)
+        }else{
+            res.render('admin/projectlist', {
+                title:'project-list',
+                layout:'layout-admin',
+                projects : data.myProjects
+            })
+        
+        }
     })
+
 });
 
 
-router.get('/adminprojectdetails' ,function (req,res) {
+
+
+
+router.get('/projectlist/create', (req,res) =>{
+    res.render('admin/project-create',{
+        title:"create new project",
+        layout:"layout-admin"
+    })
+})
+
+
+
+router.post('/projectlist/create', (req,res,next) =>{
+    let data = req.body;
+
+    let projectsCollection = db.collection('projects');
+
+    projectsCollection.insertOne(data,function(err, project) {
+        if(err) {
+            console.log(err)
+            next(err)
+        }else{
+            console.log(project.toJSON())
+            res.redirect('/admin/projectlist')
+    }
+
+    })
+})
+
+
+
+
+
+    
+router.get('/adminprojectdetails/:alias', (req,res) => {
+    let alias = req.params.alias;
+    let index = data.projectIndex[alias];
+    let project = data.myProjects[index];
+
     res.render('admin/project-details', {
         title:'project-details',
         layout:'layout-admin',
-        projects : data.myProjects
+        projects : project
     })
 });
-
-
-
-
 
 
 
 module.exports = router;
+
+
+
+
+
+// let alias = data.name.toLowerCase().trim().split(' ').join('-')
+// console.log(alias)
+// data.alias = alias;
+
+
+
+
+
+// let newProject = new Project(data);
+
+// newProject.save(function(err, data){
+//     if(err) {
+//         next(err)
+//     }else{
+//         res.redirect('/admin/projects')
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // module.exports.adminprojectlist =function (req,res) {

@@ -71,7 +71,7 @@ app.use(appMiddleware.authenticated)
 
 // app.get('/dashboard',routes.dashboard);
 // app.get('/admin/projectlist',routes.adminprojectlist);
-// app.get('/admin/projectdetails',routes.adminprojectdetails);
+//app.get('/admin/projectdetails',routes.adminprojectdetails);
 
 
 
